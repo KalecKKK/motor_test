@@ -9,16 +9,11 @@
  *
  */
 
-namespace EcanVCI {
+#pragma once
 
-extern "C" {
 #include "ECanVci.h"
-}
 
-//////////////////////////////////////////////////////////////////////////
-// 宏定义
-//////////////////////////////////////////////////////////////////////////
-#ifdef __cplusplus
+namespace EcanVCI {
 
 enum Tim0Kbps {
   TIM0_KBPS_5 = 0xBF,
@@ -55,41 +50,5 @@ enum Tim1Kbps {
   TIM1_KBPS_800 = 0x16,
   TIM1_KBPS_1000 = 0x14
 };
-
-#else
-
-#define TIM0_KBPS_5 0xBF
-#define TIM0_KBPS_10 0x31
-#define TIM0_KBPS_20 0x18
-#define TIM0_KBPS_40 0x87
-#define TIM0_KBPS_50 0x09
-#define TIM0_KBPS_80 0x83
-#define TIM0_KBPS_100 0x04
-#define TIM0_KBPS_125 0x03
-#define TIM0_KBPS_200 0x81
-#define TIM0_KBPS_250 0x01
-#define TIM0_KBPS_400 0x80
-#define TIM0_KBPS_500 0x00
-#define TIM0_KBPS_666 0x80
-#define TIM0_KBPS_800 0x00
-#define TIM0_KBPS_1000 0x00
-
-#define TIM1_KBPS_5 0xFF
-#define TIM1_KBPS_10 0x1C
-#define TIM1_KBPS_20 0x1C
-#define TIM1_KBPS_40 0xFF
-#define TIM1_KBPS_50 0x1C
-#define TIM1_KBPS_80 0xFF
-#define TIM1_KBPS_100 0x1C
-#define TIM1_KBPS_125 0x1C
-#define TIM1_KBPS_200 0xFA
-#define TIM1_KBPS_250 0x1C
-#define TIM1_KBPS_400 0xFA
-#define TIM1_KBPS_500 0x1C
-#define TIM1_KBPS_666 0xB6
-#define TIM1_KBPS_800 0x16
-#define TIM1_KBPS_1000 0x14
-
-#endif
 
 } // namespace EcanVCI

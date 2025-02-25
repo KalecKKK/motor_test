@@ -1,14 +1,8 @@
 #ifndef _ECANVCI_H_
 #define _ECANVCI_H_
 
-#define uint8_t unsigned char
-#define int8_t signed char
-#define uint16_t unsigned short int
-#define int16_t signed short int
-#define uint32_t unsigned int
-#define int32_t signed int
-#define uint64_t unsigned long long int
-#define int64_t signed long long int
+#include <stdint.h>
+
 #define DWORD unsigned int
 #define UINT unsigned int
 #define USHORT unsigned short int

@@ -1,17 +1,10 @@
 #include "definitions.hpp"
 #include <chrono>
-#include <fcntl.h>
+#include <cmath>
 #include <iostream>
 #include <pthread.h>
 #include <string>
-#include <sys/stat.h>
-#include <sys/types.h>
 #include <thread>
-#include <unistd.h>
-#include <vector>
-
-#define msleep(ms) std::this_thread::sleep_for(std::chrono::milliseconds(ms))
-#define min(a, b) (((a) < (b)) ? (a) : (b))
 
 using namespace EcanVCI;
 
@@ -27,6 +20,10 @@ unsigned int gBaud = 0;
 unsigned char gTxType = 0;
 unsigned int gTxSleep = 0;
 unsigned int gTxFrames = 0;
+
+void msleep(int ms) {
+  std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
 
 unsigned int s2n(const std::string &s) {
   unsigned l = s.length();
