@@ -19,4 +19,6 @@ file(GLOB SOURCES "${PROJECT_SOURCE_DIR}/Src/*.cpp")
 add_executable(motor_test ${SOURCES})
 
 # 链接库文件
-target_link_libraries(motor_test pthread ECanVci usb)
+target_link_libraries(motor_test pthread
+    ${PROJECT_SOURCE_DIR}/lib/libECanVci.so
+    ${PROJECT_SOURCE_DIR}/lib/libusb.so)
