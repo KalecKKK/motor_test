@@ -1,4 +1,4 @@
-#include "definitions.hpp"
+#include "Motor_control.hpp"
 #include <chrono>
 #include <cmath>
 #include <iostream>
@@ -6,7 +6,7 @@
 #include <string>
 #include <thread>
 
-using namespace EcanVCI;
+using namespace EcanVci;
 
 constexpr int MAX_CHANNELS = 2;
 constexpr int CHECK_POINT = 200;
