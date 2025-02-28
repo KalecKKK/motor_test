@@ -1,7 +1,7 @@
 ### 编译前确保你的Linux有以下编译工具和依赖
 ```
 build-essential cmake
-libusb-dev
+libusb-1.0-0-dev
 ```
 
 ### 编译/运行前执行以下命令
@@ -12,7 +12,7 @@ sudo ln lib/libusb.so /usr/lib/libusb.so
 
 ### 编译命令
 ```
-mkdir build & cd build
+mkdir build && cd build
 cmake ..
 make
 ```
