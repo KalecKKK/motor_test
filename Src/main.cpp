@@ -31,7 +31,7 @@ int main() {
     uint32_t frames_count = 0;
     while (true) {
       // motor.SetSpeed(100, 0x0FFF, Message_return_status::ACK_TYPE_1);
-      motor.SetCurrent(100, Message_return_status::ACK_TYPE_1);
+      motor.SetCurrent(160, Message_return_status::ACK_TYPE_1);
       // motor.SetSpeed(100, 100, Message_return_status::ACK_TYPE_1);
       // motor.SetPosition(100, 100, 100, Message_return_status::ACK_TYPE_2);
       // motor.ControlWithMode(Control_mode::CURRENT_MODE, 100,

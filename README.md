@@ -19,5 +19,5 @@ make
 
 ### 执行测试
 ```
-./motor_test 4 0 3 0x1400 2 3 1000
+./motor_test
 ```
