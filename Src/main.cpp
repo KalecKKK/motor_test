@@ -22,7 +22,11 @@ int main() {
 
     Motor_control motor(can_transport, 0x00, 0x01);
 
-    motor.SetZero();
+    int times = 10;
+    while (times--) {
+      motor.ResetID();
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
 
     uint32_t frames_count = 0;
     while (true) {
@@ -33,9 +37,11 @@ int main() {
       // motor.ControlWithMode(Control_mode::CURRENT_MODE, 100,
       // Message_return_status::ACK_TYPE_1);
 
-      std::cout << "Send frames count: " << ++frames_count << std::endl;
+      if (frames_count % 100 == 0) {
+        std::cout << "Send frames count: " << ++frames_count << std::endl;
+      }
 
-      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';

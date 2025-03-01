@@ -56,17 +56,20 @@ enum CAN_ID {
   CAN_2 = 0x01,
 };
 
-class Can_transport
-{
+class Can_transport {
 protected:
   DWORD device_type, device_index;
+
+  CAN_ID can_index;
+
 public:
   Can_transport();
-  Can_transport(DWORD device_type, DWORD device_index);
+  Can_transport(CAN_ID can_index);
+  Can_transport(DWORD device_type, DWORD device_index, CAN_ID can_index);
 
   ~Can_transport();
 
-  DWORD Transmit(CAN_ID can_index, BYTE data[], ULONG len) const;
+  DWORD Transmit(CAN_ID can_index, UINT destination, BYTE data[], ULONG len) const;
 };
 
 } // namespace EcanVci

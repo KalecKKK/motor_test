@@ -36,7 +36,7 @@ Motor_control::status_type Motor_control::SetZero() const {
   // 设为零位的具体实现
   // 示例：发送CAN命令
   uint8_t data[4] = {id_high, id_low, 0x00, 0x03};
-  can_transport.Transmit(EcanVci::CAN_1, data, 4);
+  can_transport.Transmit(EcanVci::CAN_1, 0x7FF, data, 4);
   return 0;
 }
 
@@ -44,7 +44,7 @@ Motor_control::status_type Motor_control::ResetID() {
   // 重置ID的具体实现
   // 示例：发送CAN命令
   uint8_t data[6] = {0x7F, 0x7F, 0x00, 0x05, 0x7F, 0x7F};
-  can_transport.Transmit(EcanVci::CAN_1, data, 6);
+  can_transport.Transmit(EcanVci::CAN_1, 0x7FF, data, 6);
   return 0;
 }
 
@@ -57,7 +57,7 @@ Motor_control::status_type Motor_control::ResetID(uint16_t new_id) {
                      0x04,
                      static_cast<uint8_t>(new_id >> 8),
                      static_cast<uint8_t>(new_id & 0xFF)};
-  can_transport.Transmit(EcanVci::CAN_1, data, 6);
+  can_transport.Transmit(EcanVci::CAN_1, 0x7FF, data, 6);
   return 0;
 }
 
@@ -73,7 +73,7 @@ Motor::Communication_mode Motor_control::QueryCommunicationMode() {
   // 查询通信模式的具体实现
   // 示例：发送CAN命令
   uint8_t data[4] = {id_high, id_low, 0x00, 0x81};
-  can_transport.Transmit(EcanVci::CAN_1, data, 4);
+  can_transport.Transmit(EcanVci::CAN_1, 0x7FF, data, 4);
   return Motor::Communication_mode::UNKOWN;
 }
 
@@ -81,7 +81,7 @@ uint16_t Motor_control::QueryID() const {
   // 查询ID的具体实现
   // 示例：发送CAN命令
   uint8_t data[4] = {0xFF, 0xFF, 0x00, 0x82};
-  can_transport.Transmit(EcanVci::CAN_1, data, 4);
+  can_transport.Transmit(EcanVci::CAN_1, 0x7FF, data, 4);
   return 0;
 }
 
@@ -89,7 +89,7 @@ uint16_t Motor_control::QueryID(const EcanVci::Can_transport &can_transport) {
   // 查询ID的具体实现
   // 示例：发送CAN命令
   uint8_t data[4] = {0xFF, 0xFF, 0x00, 0x82};
-  can_transport.Transmit(EcanVci::CAN_1, data, 4);
+  can_transport.Transmit(EcanVci::CAN_1, 0x7FF, data, 4);
   return 0;
 }
 
@@ -100,7 +100,7 @@ void Motor_control::HybridControl(Motor::PID_parameters pid, float position,
   uint8_t data[8];
   // 将pid, position, speed, current转换为CAN数据
   // ...
-  can_transport.Transmit(EcanVci::CAN_1, data, 8);
+  can_transport.Transmit(EcanVci::CAN_1, (id_high << 8) | id_low, data, 8);
 }
 
 void Motor_control::SetPosition(float position, uint16_t speed,
@@ -111,7 +111,7 @@ void Motor_control::SetPosition(float position, uint16_t speed,
   uint8_t data[8];
   // 将position, speed, current, ack_status转换为CAN数据
   // ...
-  can_transport.Transmit(EcanVci::CAN_1, data, 8);
+  can_transport.Transmit(EcanVci::CAN_1, (id_high << 8) | id_low, data, 8);
 }
 
 void Motor_control::SetSpeed(float speed, uint16_t current,
@@ -130,7 +130,7 @@ void Motor_control::SetSpeed(float speed, uint16_t current,
   data[5] = 0xff & static_cast<uint8_t>(current >> 8);
   data[6] = 0xff & static_cast<uint8_t>(current);
 
-  can_transport.Transmit(EcanVci::CAN_1, data, 7);
+  can_transport.Transmit(EcanVci::CAN_1, (id_high << 8) | id_low, data, 7);
 }
 
 void Motor_control::SetCurrent(uint16_t current,
@@ -139,11 +139,11 @@ void Motor_control::SetCurrent(uint16_t current,
   // 示例：发送CAN命令
   uint8_t data[3];
   // 将current, ack_status转换为CAN数据
-  data[0] = 0x06 | static_cast<uint8_t>(ack_status);
+  data[0] = 0x60 | static_cast<uint8_t>(ack_status);
   data[1] = 0xff & static_cast<uint8_t>(current >> 8);
   data[2] = 0xff & static_cast<uint8_t>(current);
 
-  can_transport.Transmit(EcanVci::CAN_1, data, 3);
+  can_transport.Transmit(EcanVci::CAN_1, (id_high << 8) | id_low, data, 3);
 }
 
 void Motor_control::ControlWithMode(Control_mode control_mode,
@@ -154,7 +154,7 @@ void Motor_control::ControlWithMode(Control_mode control_mode,
   uint8_t data[3];
   // 将control_mode, current_or_torque, ack_status转换为CAN数据
   // ...
-  can_transport.Transmit(EcanVci::CAN_1, data, 3);
+  can_transport.Transmit(EcanVci::CAN_1, (id_high << 8) | id_low, data, 3);
 }
 
 } // namespace Motor
