@@ -58,7 +58,9 @@ DWORD EcanVci::Can_transport::Transmit(CAN_ID can_index, UINT destination,
     throw std::runtime_error("Data length should be less than or equal to 8");
   }
 
-  CAN_OBJ msg = {destination, 0, 0, 0, 0, static_cast<BYTE>(len), {0}, {0}};
+  CAN_OBJ msg = {0};
+  msg.ID = destination;
+  msg.DataLen = static_cast<BYTE>(len);
   memcpy(msg.Data, data, len);
 
   //*// DEBUG
