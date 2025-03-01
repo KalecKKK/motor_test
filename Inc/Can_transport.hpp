@@ -51,4 +51,22 @@ enum Tim1Kbps {
   TIM1_KBPS_1000 = 0x14
 };
 
+enum CAN_ID {
+  CAN_1 = 0x00,
+  CAN_2 = 0x01,
+};
+
+class Can_transport
+{
+protected:
+  DWORD device_type, device_index;
+public:
+  Can_transport();
+  Can_transport(DWORD device_type, DWORD device_index);
+
+  ~Can_transport();
+
+  DWORD Transmit(CAN_ID can_index, BYTE data[], ULONG len) const;
+};
+
 } // namespace EcanVci

@@ -149,7 +149,7 @@ void set_motors_current(OD_Motor_Msg rv_MotorMsg[8],uint8_t motor_quantity)
   mbox=CAN_Transmit(CAN1, &TxMessage);
 	while((CAN_TransmitStatus(CAN1, mbox)==CAN_TxStatus_Failed)&&(i<0XFFF))
 	{
-		i++;	//µÈ´ý·¢ËÍ½áÊø
+		i++;	//ï¿½È´ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½
 		if(i>=0XFFF)
 			break;
 	}
@@ -165,7 +165,7 @@ void set_motors_current(OD_Motor_Msg rv_MotorMsg[8],uint8_t motor_quantity)
   mbox=CAN_Transmit(CAN1, &TxMessage);
 	while((CAN_TransmitStatus(CAN1, mbox)==CAN_TxStatus_Failed)&&(i<0XFFF))
 	{
-		i++;	//µÈ´ý·¢ËÍ½áÊø
+		i++;	//ï¿½È´ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½
 		if(i>=0XFFF)
 			break;
 	}
