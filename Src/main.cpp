@@ -30,18 +30,24 @@ int main() {
 
     uint32_t frames_count = 0;
     while (true) {
-      motor.SetSpeed(100, 0x0FFF, Message_return_status::NO_ACK);
+      // motor.SetSpeed(100, 0x0FFF, Message_return_status::ACK_TYPE_1);
+      motor.SetCurrent(100, Message_return_status::ACK_TYPE_1);
       // motor.SetSpeed(100, 100, Message_return_status::ACK_TYPE_1);
       // motor.SetPosition(100, 100, 100, Message_return_status::ACK_TYPE_2);
-      // motor.SetCurrent(100, Message_return_status::NO_ACK);
       // motor.ControlWithMode(Control_mode::CURRENT_MODE, 100,
       // Message_return_status::ACK_TYPE_1);
 
-      if (frames_count % 100 == 0) {
-        std::cout << "Send frames count: " << ++frames_count << std::endl;
+      if (motor.UpdateInfo()) {
+        std::cout << "Position: " << motor.motor_info.position
+                  << " Speed: " << motor.motor_info.speed
+                  << " Current: " << motor.motor_info.current << std::endl;
       }
 
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      if (++frames_count % 100 == 0) {
+        std::cout << "Send frames count: " << frames_count << std::endl;
+      }
+
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';

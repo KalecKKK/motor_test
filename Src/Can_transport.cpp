@@ -51,8 +51,8 @@ EcanVci::Can_transport::~Can_transport() {
   std::cout << "CloseDevice\n";
 }
 
-DWORD EcanVci::Can_transport::Transmit(CAN_ID can_index, UINT destination,
-                                       BYTE data[], ULONG len) const {
+DWORD EcanVci::Can_transport::Transmit(UINT destination, BYTE data[],
+                                       ULONG len) const {
   if (len > 8) {
     std::cerr << "Data length should be less than or equal to 8\n";
     throw std::runtime_error("Data length should be less than or equal to 8");
@@ -63,7 +63,7 @@ DWORD EcanVci::Can_transport::Transmit(CAN_ID can_index, UINT destination,
   msg.DataLen = static_cast<BYTE>(len);
   memcpy(msg.Data, data, len);
 
-  //*// DEBUG
+  /*// DEBUG
   std::cout << "device_type: " << device_type               \
             << ", device_index: " << device_index           \
             << ", can_index: " << can_index                 \
@@ -82,5 +82,37 @@ DWORD EcanVci::Can_transport::Transmit(CAN_ID can_index, UINT destination,
     std::cerr << "Transmit failed\n";
     throw std ::runtime_error("Transmit failed");
   }
+  return result;
+}
+
+DWORD EcanVci::Can_transport::ReceiveOnce(UINT &source, BYTE data[], ULONG &len,
+                                          ULONG wait_time) const {
+  CAN_OBJ msg;
+  auto result = ::Receive(device_type, device_index,
+                          static_cast<DWORD>(can_index), &msg, 1, wait_time);
+  if (result <= 0) {
+    return STATUS_ERR;
+  }
+
+  source = msg.ID;
+  len = msg.DataLen;
+  memcpy(data, msg.Data, len);
+
+  return result;
+}
+
+DWORD EcanVci::Can_transport::ReceiveLast(UINT &source, BYTE data[], ULONG &len,
+                                          ULONG wait_time) const {
+  CAN_OBJ msg[100];
+  auto result = ::Receive(device_type, device_index,
+                          static_cast<DWORD>(can_index), msg, 100, wait_time);
+  if (result <= 0) {
+    return STATUS_ERR;
+  }
+
+  source = msg[result - 1].ID;
+  len = msg[result - 1].DataLen;
+  memcpy(data, msg[result - 1].Data, len);
+
   return result;
 }

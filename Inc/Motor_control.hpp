@@ -45,10 +45,12 @@ enum Control_mode {
 };
 
 enum Message_return_status {
-    NO_ACK     = 0x00,
-    ACK_TYPE_1 = 0x01,
-    ACK_TYPE_2 = 0x02,
-    ACK_TYPE_3 = 0x03,
+  NO_ACK = 0x00,
+  ACK_TYPE_1 = 0x01,
+  ACK_TYPE_2 = 0x02,
+  ACK_TYPE_3 = 0x03,
+  ACK_TYPE_4 = 0x04,
+  ACK_TYPE_5 = 0x05,
 };
 
 class Motor_control {
@@ -72,12 +74,26 @@ protected:
   Motor_control &operator=(Motor_control &) = delete;
 
 public:
+  struct Motor_info {
+    uint16_t motor_id;
+    ErrorCode error_code;
+    float position;
+    float speed;
+    float current;
+    uint8_t motor_temperature;
+    uint8_t MOS_temperature;
+  } motor_info;
+
+  DWORD UpdateInfo();
+
+public:
   /**
    * @brief 构造函数
    * @param id_high 高位ID
    * @param id_low 低位ID
    */
-  Motor_control(const EcanVci::Can_transport &can_transport, uint8_t id_high, uint8_t id_low);
+  Motor_control(const EcanVci::Can_transport &can_transport, uint8_t id_high,
+                uint8_t id_low);
 
   /**
    * @brief 构造函数
@@ -167,7 +183,8 @@ public:
    * @param current 电流
    * @param ack_status 报文返回状态
    */
-  void SetSpeed(float speed, uint16_t current, Message_return_status ack_status) const;
+  void SetSpeed(float speed, uint16_t current,
+                Message_return_status ack_status) const;
 
   /**
    * @brief 设置电流

@@ -69,7 +69,11 @@ public:
 
   ~Can_transport();
 
-  DWORD Transmit(CAN_ID can_index, UINT destination, BYTE data[], ULONG len) const;
+  DWORD Transmit(UINT destination, BYTE data[], ULONG len) const;
+  DWORD ReceiveOnce(UINT &source, BYTE data[], ULONG &len,
+                    ULONG wait_time = 0) const;
+  DWORD ReceiveLast(UINT &source, BYTE data[], ULONG &len,
+                    ULONG wait_time = 0) const;
 };
 
 } // namespace EcanVci
